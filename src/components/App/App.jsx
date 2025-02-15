@@ -6,6 +6,7 @@ import Loading from '../Loader/Loader';
 import Modal from '../Modal/Modal';
 import axios from 'axios';
 import styles from './App.module.css';
+import Swal from 'sweetalert2'
 
 axios.defaults.baseURL = "https://pixabay.com/api/";
 
@@ -27,7 +28,16 @@ class App extends Component {
 
     try {
       const response = await axios.get(`?key=${API_KEY}&q=${query}&page=${page}&image_type=photo&orientation=horizontal&per_page=12`);
-  
+
+      if(response.data.totalHits === 0) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'No images found!',
+          icon: 'error',
+          confirmButtonText: 'Try again'
+        })
+      }
+      
       this.setState(prevState => {
         const newImages = response.data.hits.filter(
           hit => !prevState.images.some(image => image.id === hit.id)
@@ -38,7 +48,8 @@ class App extends Component {
         };
       });
     } catch (error) {
-      console.error('Error fetching images:', error);
+      console.error('Error fetching images:', error);  
+      
       this.setState({ isLoading: false });
     }
   }
@@ -83,7 +94,7 @@ class App extends Component {
         // }}
       >
         <Searchbar onSubmit={this.handleSearchSubmit}/>
-        {<ImageGallery images={images} onImageClick={this.handleImageClick}/>}
+        {<ImageGallery images={images} onImageClick={this.handleImageClick}/> }
         
         {isLoading && <Loading />}
         {images.length > 0 && <Button onClick={this.handleLoadMoreClick}/>}

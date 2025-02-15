@@ -24,9 +24,9 @@ export default class Searchbar extends Component {
         const form = e.target;
         const searchQuery = form.value; 
 
-        this.setState({query: searchQuery});
-        
+        this.setState({query: searchQuery});  
     }
+    
     render() {
         return (
             <header className={styles.searchbar}>
