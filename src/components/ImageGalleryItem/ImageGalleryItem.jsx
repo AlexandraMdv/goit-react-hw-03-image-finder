@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import styles from './ImageGalleryItem.module.css';
 
-
 const ImageGalleryItem = ({ image, onImageClick }) => (
   <li key={image.id} className={styles.galleryItem} onClick={() => onImageClick(image.largeImageURL, image.tags)}>
     <img src={image.webformatURL} alt={image.tags} />

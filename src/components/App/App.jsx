@@ -27,8 +27,7 @@ class App extends Component {
 
     try {
       const response = await axios.get(`?key=${API_KEY}&q=${query}&page=${page}&image_type=photo&orientation=horizontal&per_page=12`);
-      
-      console.log('Hits: ', response.data.hits);
+  
       this.setState(prevState => {
         const newImages = response.data.hits.filter(
           hit => !prevState.images.some(image => image.id === hit.id)
@@ -55,14 +54,10 @@ class App extends Component {
   };
 
   handleImageClick = (largeImageURL, alt) => {
-    console.log('Image clicked:', { largeImageURL, alt });
-    this.setState({ largeImageURL, alt, showModal: true }, () => {
-      console.log('State after click:', this.state);
-    });
+    this.setState({ largeImageURL, alt, showModal: true });
   };
 
   handleLoadMoreClick = () => {
-    console.log('button load more clicked');
     this.setState(prevState => ({page: prevState.page + 1}), () => {
       this.fetchImages();
     })
